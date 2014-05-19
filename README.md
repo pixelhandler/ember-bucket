@@ -2,7 +2,7 @@
 
 Bucket object for batch processing, singleton to be used as a service for buckets; with components for controls
 
-See the example app for usage.
+See the example app code for usage. [View Demo](http://pixelhandler.github.io/ember-bucket/)
 
 ## Overview
 

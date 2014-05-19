@@ -32,6 +32,7 @@ pkg
 rdoc
 spade-boot.js
 spec/reports
+stylesheets/
 test/tmp
 test/version_tmp
 test_*.html
