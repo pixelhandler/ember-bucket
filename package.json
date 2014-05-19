@@ -1,0 +1,47 @@
+{
+  "name": "ember-bucket",
+  "version": "0.5.0",
+  "description": "Bucket object for batch processing, singleton to be used as a service for buckets; with components for controls",
+  "main": "lib/main.coffee",
+  "scripts": {
+    "test": "grunt test",
+    "postinstall": "node_modules/.bin/bower install; ./script/setup"
+  },
+  "author": "Bill Heaton",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pixelhandler/ember-bucket"
+  },
+  "bugs": {
+    "url": "https://github.com/pixelhandler/ember-bucket/issues"
+  },
+  "homepage": "https://github.com/pixelhandler/ember-bucket",
+  "keywords": [
+    "bucket",
+    "batch",
+    "ember",
+    "ember component",
+    "broccoli"
+  ],
+  "devDependencies": {
+    "bower": "^1.3.2",
+    "broccoli": "^0.9.0",
+    "broccoli-cli": "0.0.1",
+    "broccoli-coffee": "^0.1.0",
+    "broccoli-dist-es6-module": "^0.1.8",
+    "broccoli-ember-hbs-template-compiler": "^1.5.0",
+    "broccoli-env": "0.0.1",
+    "broccoli-merge-trees": "^0.1.3",
+    "broccoli-sass": "^0.1.3",
+    "broccoli-static-compiler": "^0.1.4",
+    "grunt": "^0.4.4",
+    "grunt-broccoli": "^0.2.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-testem": "^0.5.15",
+    "matchdep": "^0.3.0",
+    "qunitjs": "1.12.0",
+    "testem": "^0.6.14"
+  }
+}

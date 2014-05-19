@@ -1,0 +1,25 @@
+@import 'variables';
+
+ella-control {
+  cursor: pointer;
+  display: inline-block;
+  color: $control_text_color;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  &.activated {
+    opacity: 1;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.65;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

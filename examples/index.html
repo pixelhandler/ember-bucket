@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example EllaBucketService with Components</title>
+    <link href="./ella-bucket.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8">
+    <link href="./example.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8">
+  </head>
+  <body>
+  <script type="text/x-handlebars" data-template-name="application">
+    <dl>
+      <dt>EllaLabelComponent</dd>
+      <dd>{{#ella-label}}Notice{{/ella-label}}</dd>
+
+      <dt>EllaControlComponent</dd>
+      <dd>{{#ella-control}}Save{{/ella-control}}</dd>
+
+      <dt>EllaBucketComponent</dd>
+      <dd>{{x-bucket notices=notices}}</dd>
+
+      <dt>EllaBucketService</dt>
+      <dd>{{#link-to 'buckets'}}example app{{/link-to}}</dd>
+    </dl>
+    <br>
+    
+    <hr>
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="components/x-bucket">
+    {{#each notice in notices}}
+      {{#ella-label status=notice.status}}
+        <span>{{notice.name}}</span>
+      {{/ella-label}}
+    {{/each}}
+    {{#ella-control action='save' activated=activated targetObject=targetObject}}Save{{/ella-control}}
+    {{#ella-control action='cancel' activated=activated targetObject=targetObject}}Cancel{{/ella-control}}
+    {{yield}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="buckets">
+    <p>
+      {{x-bucket notices=notices activated=saveBucketActivated targetObject=controller}}
+    </p>
+    <h4>List your top 10 teams:</h4>
+    {{#each}}
+      <p>
+        <label>Order:</label> {{input value=order maxlength=2}}
+        <label>Name:</label> {{input value=name maxlength=30}}
+      </p>
+    {{/each}}
+  </script>
+
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/handlebars/handlebars.js"></script>
+  <script src="../bower_components/ember/ember.js"></script>
+  <script src="../bower_components/ic-styled/main.js"></script>
+  <!--<script src="../dist/globals/main.js"></script>-->
+  <script src="http://localhost:4200/globals/main.js"></script>
+  <script src="http://localhost:35729/livereload.js"></script>
+
+  <script src="./app.js"></script>
+  </body>
+</html>

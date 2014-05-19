@@ -1,0 +1,33 @@
+@import 'variables';
+
+ella-label {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+
+  &.info, &.success, &.warn, &.danger {
+    color: $label_text_color;
+  }
+
+  &.info {
+    background-color: $info_color;
+  }
+
+  &.success {
+    background-color: $success_color;
+  }
+
+  &.warn {
+    background-color: $warn_color;
+  }
+
+  &.danger {
+    background-color: $danger_color;
+  }
+}
