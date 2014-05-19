@@ -38,11 +38,11 @@ In the examples you will see each component listed and a simple list of models t
 
 After cloning this repo...
 
-1) Install all dependencies with NPM
+1) Install all dependencies with [NPM]
 
     $ npm install
 
-2) Start your test and development server
+2) Start your test and development server using [testem]
 
     $ ./testem
 
@@ -65,8 +65,16 @@ Build distribution files:
 * Test'em will run tests in multiple browsers
 * Broccoli will build the component for distribution in AMD, Named AMD, CJS, and Global module formats (thanks to [Ryan Florence's broccoli-dist-es6-module][es6-dist])
 
+### Thanks (and Links)
+
+* [broccoli] - (speedy) build tool by Jo Liss
+* [es6-dist] - Ryan Florence's broccoli-dist-es6-module
+* [emberella-component-blueprint] - Blueprint for building components by Dana Franklin
 
 [emberella-component-blueprint]: https://github.com/realityendshere/emberella-component-blueprint "blueprint"
 [emberella]: https://github.com/realityendshere/emberella "Emberella"
 [example]: http://localhost:7357/examples/index.html "Example Components and App"
 [es6-dist]: https://github.com/rpflorence/broccoli-dist-es6-module "broccoli-dist-es6-module"
+[broccoli]: https://github.com/joliss/broccoli "Broccoli"
+[testem]: https://github.com/airportyh/testem "Test'em 'Scripts!"
+[NPM]: https://www.npmjs.org "NPM"
