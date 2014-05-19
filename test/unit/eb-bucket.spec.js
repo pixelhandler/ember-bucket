@@ -1,5 +1,5 @@
 /**
-  EllaBucketComponent Spec
+  EBBucketComponent Spec
 **/
 
 (function() {
@@ -8,16 +8,16 @@ var type = 'bucket', notices;
 
 window.TEST_TEMPLATES[type] = function(){/*
   {{#each notice in notices}}
-    {{#ella-label status=notice.status}}
+    {{#eb-label status=notice.status}}
       <span>{{notice.name}}</span>
-    {{/ella-label}}
+    {{/eb-label}}
   {{/each}}
 */}.compile();
 
-var element = "ella-%@".fmt(type);
+var element = "eb-%@".fmt(type);
 
 moduleForComponent(element, 'Unit: component:' + element, {
-  needs: ['component:ella-label', 'component:ella-control']
+  needs: ['component:eb-label', 'component:eb-control']
 });
 
 test('component can have no notices', function() {
@@ -29,7 +29,7 @@ test('component can have no notices', function() {
 
   ok(find(element).text().trim() === '', 'No notice renders');
 
-  equal(find('ella-label', element).length, 0, 'Has no labels');
+  equal(find('eb-label', element).length, 0, 'Has no labels');
   Ember.run(function() { component.destroy(); });
 });
 
@@ -45,7 +45,7 @@ test('component can have one "Info" notice', function() {
   });
 
   equal(find(element).text().trim(), 'Info', 'A notice renders with text: "Info"');
-  ok(find('ella-label', element).hasClass('info'), 'Notice has "info" status, as CSS class');
+  ok(find('eb-label', element).hasClass('info'), 'Notice has "info" status, as CSS class');
   Ember.run(function() { component.destroy(); });
 });
 
@@ -60,7 +60,7 @@ test('component can have multiple notices', function() {
     component.get('notices').pushObject({ name: 'Info', status: 'info' });
   });
 
-  var infoNotice = find('ella-label.info', element)
+  var infoNotice = find('eb-label.info', element)
   equal(infoNotice.text().trim(), 'Info', 'A notice renders with text: "Info"');
   equal(infoNotice.length, 1, 'Info Has "info" status as a CSS class');
 
@@ -68,7 +68,7 @@ test('component can have multiple notices', function() {
     component.get('notices').pushObject({ name: 'Warning', status: 'warn' });
   });
 
-  var warningNotice = find('ella-label.warn', element);
+  var warningNotice = find('eb-label.warn', element);
   equal(warningNotice.text().trim(), 'Warning', 'A notice renders with text: "Warning"');
   equal(warningNotice.length, 1, 'Warning Notice has "warn" status, as CSS class');
 
@@ -81,12 +81,12 @@ test('component layout can use controls to send actions for managing a bucket', 
   var og = window.TEST_TEMPLATES[type];
   window.TEST_TEMPLATES[type] = function(){/*
     {{#each notice in notices}}
-      {{#ella-label status=notice.status}}
+      {{#eb-label status=notice.status}}
         <span>{{notice.name}}</span>
-      {{/ella-label}}
+      {{/eb-label}}
     {{/each}}
-    {{#ella-control action='processQueue'}}Process{{/ella-control}}
-    {{#ella-control action='emptyQueue'}}Empty{{/ella-control}}
+    {{#eb-control action='processQueue'}}Process{{/eb-control}}
+    {{#eb-control action='emptyQueue'}}Empty{{/eb-control}}
   */}.compile();
 
   var component = this.subject({

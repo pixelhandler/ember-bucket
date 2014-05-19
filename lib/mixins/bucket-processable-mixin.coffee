@@ -1,15 +1,11 @@
 `import { Mixin, Evented, get } from 'ember';`
 
 ###
-@module emberella
-@submodule emberella-mixins
+@class BucketProcessableMixin
+@namespace EB
 ###
 
-###
-@class EllaBucketProcessableMixin
-###
-
-EllaBucketProcessableMixin = Mixin.create
+BucketProcessableMixin = Mixin.create
 
   ###
   Map of properties and associated buckets (processes)
@@ -65,14 +61,13 @@ EllaBucketProcessableMixin = Mixin.create
     for own bucketName, config of map
       for own prop, values of config
         bucketObserverFactory.call @, bucketName, prop, values
-    #TODO REVIEW... @on 'addToBucket', @addToBucket.bind @
 
   ###
   @private
   @method _getBucketService
   ###
   _getBucketService: ->
-    Emberella2.EllaBucketService.getSingleton()
+    EB.BucketService.getSingleton()
 
 bucketObserverFactory = (bucketName, prop, values) ->
   return unless Array.isArray values
@@ -92,6 +87,6 @@ if !Array.isArray
   Array.isArray = (arg) ->
     Object.prototype.toString.call(arg) == '[object Array]'
 
-EllaBucketProcessableMixin.reopen Evented
+BucketProcessableMixin.reopen Evented
 
-`export default EllaBucketProcessableMixin;`
+`export default BucketProcessableMixin;`

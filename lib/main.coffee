@@ -1,36 +1,35 @@
 # Components
-`import EllaLabelComponent from './components/ella-label-component';`
-`import EllaControlComponent from './components/ella-control-component';`
-`import EllaBucketComponent from './components/ella-bucket-component';`
-#`import EllaStylesTemplate from './templates/main-css';`
+`import EBLabelComponent from './components/eb-label-component';`
+`import EBControlComponent from './components/eb-control-component';`
+`import EBBucketComponent from './components/eb-bucket-component';`
+`import EBStylesTemplate from './templates/main-css';`
 
 # Services
-`import EllaBucketService from './services/ella-bucket-service';`
+`import BucketService from './services/bucket-service';`
 
 # Mixins
-`import EllaBucketProcessableMixin from './mixins/ella-bucket-processable-mixin';`
+`import BucketProcessableMixin from './mixins/bucket-processable-mixin';`
 
 # Libraries
 `import { Application } from 'ember';`
 
 Application.initializer
-  name: 'ella-bucket-components',
+  name: 'eb-bucket-components',
   initialize: (container) ->
-    container.register 'component:ella-label', EllaLabelComponent
-    container.register 'component:ella-control', EllaControlComponent
-    container.register 'component:ella-bucket', EllaBucketComponent
-    #container.register 'template:components/ella-bucket-css', EllaStylesTemplate, {singleton: true}
+    container.register 'component:eb-label', EBLabelComponent
+    container.register 'component:eb-control', EBControlComponent
+    container.register 'component:eb-bucket', EBBucketComponent
 
 Application.initializer
-  name: 'ella-bucket-service',
+  name: 'bucket-service',
   initialize: (container) ->
-    container.register 'service:ella-bucket', EllaBucketService, {singleton: true}
-    #container.register 'mixin:ella-bucket-processable', EllaBucketProcessableMixin, {singleton: true}
+    container.register 'service:bucket', BucketService, {singleton: true}
 
 `export {
-  EllaLabelComponent,
-  EllaControlComponent,
-  EllaBucketComponent,
-  EllaBucketService,
-  EllaBucketProcessableMixin
+  EBLabelComponent,
+  EBControlComponent,
+  EBBucketComponent,
+  EBStylesTemplate,
+  BucketService,
+  BucketProcessableMixin
 }`

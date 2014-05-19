@@ -1,17 +1,13 @@
 `import { Component, get } from 'ember'`
 
 ###
-@module emberella
-@submodule emberella-components
-###
-
-###
-@class EllaControlComponent
+@class EBControlComponent
 @extends Ember.Component
+@namespace EB
 ###
 
-EllaControlComponent =
-  tagName: 'ella-control'
+EBControlComponent =
+  tagName: 'eb-control'
 
   classNameBindings: ['activated', 'action', 'disabled']
 
@@ -24,4 +20,4 @@ EllaControlComponent =
     !get @, 'activated'
   ).property 'activated'
 
-`export default Component.extend(EllaControlComponent)`
+`export default Component.extend(EBControlComponent)`

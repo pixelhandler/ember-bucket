@@ -1,10 +1,10 @@
 /**
-  EllaBucketService Spec
+  EB BucketService Spec
 **/
 
 (function() {
 
-var service = 'ella-bucket';
+var service = 'bucket';
 var process = 'process';
 
 moduleFor("service:%@".fmt(service), "Unit: service:%@".fmt(service));
@@ -186,7 +186,7 @@ test('Bucket target objects can be moved to another (process) bucket', function(
   service.reset();
 });
 
-App.ProcessableObject = Ember.Object.extend(Emberella2.EllaBucketProcessableMixin);
+App.ProcessableObject = Ember.Object.extend(EB.BucketProcessableMixin);
 
 var objectFactory = function (processName, proto) {
   var proto = proto || {};

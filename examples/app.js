@@ -1,16 +1,16 @@
-// Sample Ella Bucket Service App
+// Sample EB Bucket Service App
 
 Ember.Application.initializer({
   name: 'buckets-injection',
 
   initialize: function (container, application) {
-    application.inject('controller:buckets', 'bucket', 'service:ella-bucket');
+    application.inject('controller:buckets', 'bucket', 'service:bucket');
   }
 });
 
 App = Ember.Application.create();
 
-App.XBucketComponent = Emberella2.EllaBucketComponent.extend({
+App.XBucketComponent = EB.EBBucketComponent.extend({
   layoutName: 'components/x-bucket'
 });
 
@@ -154,7 +154,7 @@ App.BucketsRoute = Ember.Route.extend({
   }
 });
 
-App.BucketModel = Ember.Object.extend(Emberella2.EllaBucketProcessableMixin, {
+App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
   bucketMap: { 'save': { 'isDirty': [ true ] }},
   save: function() {
     var _this = this;

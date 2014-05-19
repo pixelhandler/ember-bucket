@@ -11,11 +11,10 @@ App.injectTestHelpers();
 
 setResolver(Ember.DefaultResolver.extend({
   testSubjects: {
-    'component:ella-label': Emberella2.EllaLabelComponent,
-    'component:ella-control': Emberella2.EllaControlComponent,
-    'component:ella-bucket': Emberella2.EllaBucketComponent,
-    'service:ella-bucket': Emberella2.EllaBucketService
-    //'mixin:ella-bucket-processable': Emberella.EllaBucketProcessableMixin
+    'component:eb-label': EB.EBLabelComponent,
+    'component:eb-control': EB.EBControlComponent,
+    'component:eb-bucket': EB.EBBucketComponent,
+    'service:bucket': EB.BucketService
   },
   resolve: function(fullName) {
     return this.testSubjects[fullName] || this._super.apply(this, arguments);

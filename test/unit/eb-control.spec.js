@@ -1,5 +1,5 @@
 /**
-  EllaControlComponent Spec
+  EBControlComponent Spec
 **/
 
 (function() {
@@ -10,7 +10,7 @@ window.TEST_TEMPLATES[type] = function(){/*
   <span>Save</span>
 */}.compile();
 
-var element = "ella-%@".fmt(type);
+var element = "eb-%@".fmt(type);
 var activated = 'activated', disabled = 'disabled';
 
 moduleForComponent(element, "Unit: component: " + element);

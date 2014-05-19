@@ -1,5 +1,5 @@
 /**
-  Integration: Emberella Bucket Service with a Controller
+  Integration: Bucket Service with a Controller
 **/
 
 (function() {
@@ -14,18 +14,18 @@ Ember.Application.initializer({
   name: 'buckets-injection',
 
   initialize: function (container, application) {
-    application.inject('controller:buckets', 'bucket', 'service:ella-bucket');
+    application.inject('controller:buckets', 'bucket', 'service:bucket');
   }
 });
 
 var bucketTemplate = function(){/*
   {{#each notice in notices}}
-    {{#ella-label status=notice.status}}
+    {{#eb-label status=notice.status}}
       <span>{{notice.name}}</span>
-    {{/ella-label}}
+    {{/eb-label}}
   {{/each}}
-  {{#ella-control action='doSave' activated=bucketNotEmpty}}Save Bucket{{/ella-control}}
-  {{#ella-control action='doEmpty' activated=bucketNotEmpty}}Empty Bucket{{/ella-control}}
+  {{#eb-control action='doSave' activated=bucketNotEmpty}}Save Bucket{{/eb-control}}
+  {{#eb-control action='doEmpty' activated=bucketNotEmpty}}Empty Bucket{{/eb-control}}
   <br>
   {{#each model}}
     {{input value=name}}
@@ -75,7 +75,7 @@ App.BucketsRoute = Ember.Route.extend({
   }
 });
 
-App.BucketModel = Ember.Object.extend(Emberella2.EllaBucketProcessableMixin, {
+App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
   bucketMap: { 'save': { 'isDirty': [ true ] }},
   save: function() {
     return new Ember.RSVP.Promise(function (resolve, reject) {
@@ -99,7 +99,7 @@ App.Router.map(function() {
 
 var target, service;
 
-module('Integration: ella-bucket with a Controller', {
+module('Integration: eb-bucket with a Controller', {
   setup: function() {
     doSaveCalled = doEmptyCalled = false;
     Ember.run(function() {
@@ -131,11 +131,11 @@ test('Controller responds to bucket controls (commands)', function() {
       var bucket = service.getBucket('save');
       ok(bucket.length === 10, 'Save bucket has ten models');
 
-      click('ella-control.doEmpty').then(function() {
+      click('eb-control.doEmpty').then(function() {
         ok(doEmptyCalled, 'Action doEmpty called');
       });
 
-      click('ella-control.doSave').then(function() {
+      click('eb-control.doSave').then(function() {
         ok(doSaveCalled, 'Action doSave called');
       });
     });

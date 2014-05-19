@@ -1,12 +1,12 @@
 /**
-  Integration: Emberella Bucket Service with Thenable Objects
+  Integration: Bucket Service with Thenable Objects
 **/
 
 (function() {
 
 var target, service;
 
-module('Integration: ella-bucket with thenable objects', {
+module('Integration: bucket with thenable objects', {
   setup: function() {
     target = App.PostProcessableObject.create();
     service = target._getBucketService();
@@ -100,7 +100,7 @@ test('Objects that fail to save during processing can be rolledback', function()
 var promiseSucceeds = function (resolve, reject) { resolve(); };
 var promiseFails = function (resolve, reject) { reject(); };
 
-App.ProcessableObject = Ember.Object.extend(Emberella2.EllaBucketProcessableMixin, {
+App.ProcessableObject = Ember.Object.extend(EB.BucketProcessableMixin, {
   bucketMap: { 'save': { 'isDirty': [ true ] }},
   save: function() { return new Ember.RSVP.Promise(promiseSucceeds); }
 });

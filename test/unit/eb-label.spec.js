@@ -1,5 +1,5 @@
 /**
-  EllaLabelComponent Spec
+  EBLabelComponent Spec
 **/
 
 (function() {
@@ -10,7 +10,7 @@ window.TEST_TEMPLATES[type] = function(){/*
   <span>Notice</span>
 */}.compile();
 
-var element = "ella-%@".fmt(type);
+var element = "eb-%@".fmt(type);
 
 moduleForComponent(element, "Unit: component: " + element);
 

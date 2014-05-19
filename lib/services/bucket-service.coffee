@@ -2,17 +2,12 @@
 
 slice = Array.prototype.slice
 
-
 ###
-@module emberella
-@submodule emberella-services
-###
-
-###
-@class EllaBucketService
+@class EBBucketService
+@namespace EB
 ###
 
-EllaBucketService = Object.extend Evented,
+EBBucketService = Object.extend Evented,
   queues: null
 
   addToBucket: (name, target) ->
@@ -104,12 +99,12 @@ EllaBucketService = Object.extend Evented,
 
 _singletonInstance = null
 
-EllaBucketService.reopenClass
+EBBucketService.reopenClass
   create: ->
     return _singletonInstance if _singletonInstance?
     _singletonInstance = Object.create.apply @, slice.call arguments
 
   getSingleton: ->
-    EllaBucketService.create.apply @, slice.call arguments
+    EBBucketService.create.apply @, slice.call arguments
 
-`export default EllaBucketService;`
+`export default EBBucketService;`
