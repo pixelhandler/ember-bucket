@@ -84,7 +84,8 @@ Application.initializer({
   initialize: function(container) {
     container.register('component:eb-label', EBLabelComponent);
     container.register('component:eb-control', EBControlComponent);
-    return container.register('component:eb-bucket', EBBucketComponent);
+    container.register('component:eb-bucket', EBBucketComponent);
+    return container.register('template:components/eb-bucket-css', EBStylesTemplate);
   }
 });
 
@@ -241,17 +242,17 @@ var run = window.Ember.run;
 var get = window.Ember.get;
 var set = window.Ember.set;
 
-var EBBucketService, slice, _singletonInstance;
+var BucketService, slice, _singletonInstance;
 
 slice = Array.prototype.slice;
 
 
 /*
-@class EBBucketService
+@class BucketService
 @namespace EB
  */
 
-EBBucketService = Object.extend(Evented, {
+BucketService = Object.extend(Evented, {
   queues: null,
   addToBucket: function(name, target) {
     var bucket;
@@ -387,7 +388,7 @@ EBBucketService = Object.extend(Evented, {
 
 _singletonInstance = null;
 
-EBBucketService.reopenClass({
+BucketService.reopenClass({
   create: function() {
     if (_singletonInstance != null) {
       return _singletonInstance;
@@ -395,11 +396,11 @@ EBBucketService.reopenClass({
     return _singletonInstance = Object.create.apply(this, slice.call(arguments));
   },
   getSingleton: function() {
-    return EBBucketService.create.apply(this, slice.call(arguments));
+    return BucketService.create.apply(this, slice.call(arguments));
   }
 });
 
-exports["default"] = EBBucketService;;
+exports["default"] = BucketService;;
 },{}],7:[function(_dereq_,module,exports){
 "use strict";
 var Ember = window.Ember["default"] || window.Ember;
@@ -409,7 +410,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("ella-label {\n  display: inline;\n  padding: 0.2em 0.6em 0.3em;\n  font-size: 75%;\n  font-weight: 700;\n  line-height: 1;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: 0.25em; }\n  ella-label.info, ella-label.success, ella-label.warn, ella-label.danger {\n    color: #ffffff; }\n  ella-label.info {\n    background-color: #5bc0de; }\n  ella-label.success {\n    background-color: #5cb85c; }\n  ella-label.warn {\n    background-color: #f0ad4e; }\n  ella-label.danger {\n    background-color: #d9534f; }\n\nella-control {\n  cursor: pointer;\n  display: inline-block;\n  color: #000000;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  vertical-align: baseline; }\n  ella-control.activated {\n    opacity: 1; }\n  ella-control.disabled {\n    cursor: not-allowed;\n    pointer-events: none;\n    opacity: 0.65; }\n  ella-control:hover {\n    text-decoration: underline; }\n");
+  data.buffer.push("eb-label {\n  display: inline;\n  padding: 0.2em 0.6em 0.3em;\n  font-size: 75%;\n  font-weight: 700;\n  line-height: 1;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: 0.25em; }\n  eb-label.info, eb-label.success, eb-label.warn, eb-label.danger {\n    color: #ffffff; }\n  eb-label.info {\n    background-color: #5bc0de; }\n  eb-label.success {\n    background-color: #5cb85c; }\n  eb-label.warn {\n    background-color: #f0ad4e; }\n  eb-label.danger {\n    background-color: #d9534f; }\n\neb-control {\n  cursor: pointer;\n  display: inline-block;\n  color: #000000;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  vertical-align: baseline; }\n  eb-control.activated {\n    opacity: 1; }\n  eb-control.disabled {\n    cursor: not-allowed;\n    pointer-events: none;\n    opacity: 0.65; }\n  eb-control:hover {\n    text-decoration: underline; }\n");
   
 });
 },{}]},{},[4])

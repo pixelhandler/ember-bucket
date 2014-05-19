@@ -21,7 +21,8 @@ define(
       initialize: function(container) {
         container.register('component:eb-label', EBLabelComponent);
         container.register('component:eb-control', EBControlComponent);
-        return container.register('component:eb-bucket', EBBucketComponent);
+        container.register('component:eb-bucket', EBBucketComponent);
+        return container.register('template:components/eb-bucket-css', EBStylesTemplate);
       }
     });
 

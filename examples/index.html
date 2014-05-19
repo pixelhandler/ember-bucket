@@ -8,10 +8,10 @@
   <script type="text/x-handlebars" data-template-name="application">
     <dl>
       <dt>EllaLabelComponent</dd>
-      <dd>{{#ella-label}}Notice{{/ella-label}}</dd>
+      <dd>{{#eb-label}}Notice{{/eb-label}}</dd>
 
       <dt>EllaControlComponent</dd>
-      <dd>{{#ella-control}}Save{{/ella-control}}</dd>
+      <dd>{{#eb-control}}Save{{/eb-control}}</dd>
 
       <dt>EllaBucketComponent</dd>
       <dd>{{x-bucket notices=notices}}</dd>
@@ -27,12 +27,12 @@
 
   <script type="text/x-handlebars" data-template-name="components/x-bucket">
     {{#each notice in notices}}
-      {{#ella-label status=notice.status}}
+      {{#eb-label status=notice.status}}
         <span>{{notice.name}}</span>
-      {{/ella-label}}
+      {{/eb-label}}
     {{/each}}
-    {{#ella-control action='save' activated=activated targetObject=targetObject}}Save{{/ella-control}}
-    {{#ella-control action='cancel' activated=activated targetObject=targetObject}}Cancel{{/ella-control}}
+    {{#eb-control action='save' activated=activated targetObject=targetObject}}Save{{/eb-control}}
+    {{#eb-control action='cancel' activated=activated targetObject=targetObject}}Cancel{{/eb-control}}
     {{yield}}
   </script>
 

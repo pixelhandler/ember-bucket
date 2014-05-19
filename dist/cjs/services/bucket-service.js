@@ -8,17 +8,17 @@ var run = require("ember").run;
 var get = require("ember").get;
 var set = require("ember").set;
 
-var EBBucketService, slice, _singletonInstance;
+var BucketService, slice, _singletonInstance;
 
 slice = Array.prototype.slice;
 
 
 /*
-@class EBBucketService
+@class BucketService
 @namespace EB
  */
 
-EBBucketService = Object.extend(Evented, {
+BucketService = Object.extend(Evented, {
   queues: null,
   addToBucket: function(name, target) {
     var bucket;
@@ -154,7 +154,7 @@ EBBucketService = Object.extend(Evented, {
 
 _singletonInstance = null;
 
-EBBucketService.reopenClass({
+BucketService.reopenClass({
   create: function() {
     if (_singletonInstance != null) {
       return _singletonInstance;
@@ -162,8 +162,8 @@ EBBucketService.reopenClass({
     return _singletonInstance = Object.create.apply(this, slice.call(arguments));
   },
   getSingleton: function() {
-    return EBBucketService.create.apply(this, slice.call(arguments));
+    return BucketService.create.apply(this, slice.call(arguments));
   }
 });
 
-exports["default"] = EBBucketService;;
+exports["default"] = BucketService;;

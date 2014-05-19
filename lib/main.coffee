@@ -19,6 +19,7 @@ Application.initializer
     container.register 'component:eb-label', EBLabelComponent
     container.register 'component:eb-control', EBControlComponent
     container.register 'component:eb-bucket', EBBucketComponent
+    container.register('template:components/eb-bucket-css', EBStylesTemplate)
 
 Application.initializer
   name: 'bucket-service',

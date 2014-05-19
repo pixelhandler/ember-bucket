@@ -3,11 +3,11 @@
 slice = Array.prototype.slice
 
 ###
-@class EBBucketService
+@class BucketService
 @namespace EB
 ###
 
-EBBucketService = Object.extend Evented,
+BucketService = Object.extend Evented,
   queues: null
 
   addToBucket: (name, target) ->
@@ -99,12 +99,12 @@ EBBucketService = Object.extend Evented,
 
 _singletonInstance = null
 
-EBBucketService.reopenClass
+BucketService.reopenClass
   create: ->
     return _singletonInstance if _singletonInstance?
     _singletonInstance = Object.create.apply @, slice.call arguments
 
   getSingleton: ->
-    EBBucketService.create.apply @, slice.call arguments
+    BucketService.create.apply @, slice.call arguments
 
-`export default EBBucketService;`
+`export default BucketService;`
