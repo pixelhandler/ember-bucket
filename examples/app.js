@@ -137,15 +137,26 @@ App.BucketsController = Ember.ArrayController.extend(App.SaveBucketMixin, {
   }.observes('saveBucketNotEmpty')
 });
 
+var topTen = [
+  'Uncaught Error: Attempted to handle event `willCommit` on … while in state WAT.',
+  'Error while loading route: TypeError: Cannot set … property `store` of undefined',
+  'Uncaught Error: Assertion Failed: Error: Assertion Failed: The...',
+  'Docs: Ember.js Testing Guide',
+  'Web Components',
+  'query-params-new',
+  'ember-cli - no more ember-app-kit',
+  'Broccoli - no more grunt watch',
+  'ember-quit',
+  'HTMLbars hype'
+];
 
 App.BucketsRoute = Ember.Route.extend({
   model: function() {
-    var teams = 'Kings Blackhawks Rangers Canadiens Ducks Bruins Islanders Sharks Penguins Oilers'.w();
     return new Ember.RSVP.Promise(function (resolve, reject) {
       var items = [];
-      for (var i = 1; i <= teams.length; i++) {
+      for (var i = 1; i <= topTen.length; i++) {
         items.push(App.BucketModel.create({
-          name: teams[i - 1],
+          item: topTen[i - 1],
           order: i
         }));
       }
@@ -160,7 +171,7 @@ App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
     var _this = this;
     return new Ember.RSVP.Promise(function (resolve, reject) {
       Ember.run.later(null, function() {
-        _this._ogName = _this._name;
+        _this._ogItem = _this._item;
         _this._ogOrder = _this._order;
         _this.set('isDirty', false);
         resolve(_this);
@@ -168,20 +179,20 @@ App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
     })
   },
   rollback: function() {
-    this.setProperties({name: this._ogName, order: this._ogOrder});
+    this.setProperties({item: this._ogItem, order: this._ogOrder});
   },
 
-  name: function(key, value) {
+  item: function(key, value) {
     // setter
     if (arguments.length > 1) {
-      this._name = value;
-      if (this._ogName === null) this._ogName = this._name;
+      this._item = value;
+      if (this._ogItem === null) this._ogItem = this._item;
     }
     // getter
-    return this._name;
+    return this._item;
   }.property(),
-  _name: null,
-  _ogName: null,
+  _item: null,
+  _ogItem: null,
 
   order: function(key, value) {
     // setter
@@ -196,16 +207,16 @@ App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
   _ogOrder: null,
 
   serialize: function() {
-    return this.getProperties('name', 'order');
+    return this.getProperties('item', 'order');
   },
 
   _propertyChanged: function() {
     props = this.serialize();
-    ogProps = { name: this._ogName, order: this._ogOrder };
-    isDirty = (props.name !== ogProps.name || props.order !== ogProps.order);
+    ogProps = { item: this._ogItem, order: this._ogOrder };
+    isDirty = (props.item !== ogProps.item || props.order !== ogProps.order);
     this.set('isDirty', isDirty);
     return { current: props, original: ogProps }
-  }.observes('name', 'order'),
+  }.observes('item', 'order'),
   isDirty: false
 });
 

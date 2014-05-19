@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Example Bucket Service with Components (controls, labels)</title>
+    <title>Example Bucket: Service with Components for controls and labels</title>
     <link href="./example.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8">
   </head>
   <body>
   <script type="text/x-handlebars" data-template-name="application">
     <dl>
-      <dt>EllaLabelComponent</dd>
+      <dt>EBLabelComponent</dd>
       <dd>{{#eb-label}}Notice{{/eb-label}}</dd>
 
-      <dt>EllaControlComponent</dd>
+      <dt>EBControlComponent</dd>
       <dd>{{#eb-control}}Save{{/eb-control}}</dd>
 
-      <dt>EllaBucketComponent</dd>
+      <dt>EBBucketComponent</dd>
       <dd>{{x-bucket notices=notices}}</dd>
 
-      <dt>EllaBucketService</dt>
+      <dt>BucketService</dt>
       <dd>{{#link-to 'buckets'}}Used in example application{{/link-to}}</dd>
     </dl>
     <br>
@@ -40,11 +40,11 @@
     <p>
       {{x-bucket notices=notices activated=saveBucketActivated targetObject=controller}}
     </p>
-    <h4>List your top 10 teams:</h4>
+    <h4>List your top 10 (like Letterman):</h4>
     {{#each}}
       <p>
         <label>Order:</label> {{input value=order maxlength=2}}
-        <label>Name:</label> {{input value=name maxlength=30}}
+        {{input value=item maxlength=30}}
       </p>
     {{/each}}
   </script>

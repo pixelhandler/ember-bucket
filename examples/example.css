@@ -37,5 +37,5 @@ p > input:nth-of-type(1n) {
 }
 
 p > input:nth-of-type(2n) {
-  width: 12em;
+  width: 42em;
 }
