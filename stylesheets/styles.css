@@ -323,6 +323,51 @@ section {
 }
 
 
+/* Example app */
+html, body {
+  font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", "Lucida Grande", Geneva, Verdana, sans-serif;
+}
+
+eb-label, eb-control {
+  margin: .25em !important;
+}
+
+dt {
+  color: #ccc;
+  margin-bottom: .25em;
+}
+
+dd {
+  margin-bottom: 1em;
+}
+
+p {
+  margin: .25em 0;
+}
+
+td, th {
+  font-size: 12px;
+  margin: 0;
+  padding: .25em;
+}
+
+td input {
+  margin: 0;
+  padding: .25em;
+  background-color: #ccc;
+  border: none;
+  width: 95%;
+}
+
+td.item, th.item {
+  width: 42em;
+}
+
+td.order, th.order {
+  width: 4em;
+}
+
+
 /* Footer */
 
 footer {
@@ -330,7 +375,7 @@ footer {
   float:left;
   position:fixed;
   bottom:10px;
-	padding-left: 50px;
+  padding-left: 50px;
 }
 
 @media print, screen and (max-width: 960px) {
