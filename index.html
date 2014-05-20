@@ -38,15 +38,11 @@
             <dd>{{#eb-control}}Save{{/eb-control}}</dd>
 
             <dt>EBBucketComponent</dd>
-            <dd>{{x-bucket notices=notices}}</dd>
+            <dd>{{x-bucket activated=true notices=notices}}</dd>
 
             <dt>BucketService</dt>
-            <dd>{{#link-to 'buckets'}}click to view example application{{/link-to}}</dd>
+            <dd>{{outlet}}</dd>
           </dl>
-          <br>
-
-          <hr>
-          {{outlet}}
         </script>
 
         <script type="text/x-handlebars" data-template-name="components/x-bucket">
@@ -60,17 +56,26 @@
           {{yield}}
         </script>
 
-        <script type="text/x-handlebars" data-template-name="buckets">
-          <p>
-            {{x-bucket notices=notices activated=saveBucketActivated targetObject=controller}}
-          </p>
-          <h4>List your top 10 (like Letterman):</h4>
-          {{#each}}
-            <p>
-              <label>Order:</label> {{input value=order maxlength=2}}
-              {{input value=item maxlength=30}}
-            </p>
-          {{/each}}
+        <script type="text/x-handlebars" data-template-name="items">
+          <h3>Ember IRC Top Ten:</h3>
+          {{x-bucket notices=notices activated=saveBucketActivated targetObject=controller}}
+          <table>
+            <thead>
+              <tr>
+                <th class="order">Order</th>
+                <th class="item">Comment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each}}
+                <tr>
+                  <td class="order">{{input value=order}}</td>
+                  <td class="item">{{input value=item}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          <table>
+          <p>Feel free to edit the order or change the items. As you make edits click the `save` and `cancel` buttons to interact with the "save" bucket.</p>
         </script>
 
         <script src="javascripts/jquery.min.js"></script>

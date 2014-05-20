@@ -4,7 +4,7 @@ Ember.Application.initializer({
   name: 'buckets-injection',
 
   initialize: function (container, application) {
-    application.inject('controller:buckets', 'bucket', 'service:bucket');
+    application.inject('controller:items', 'bucket', 'service:bucket');
   }
 });
 
@@ -25,71 +25,11 @@ App.ApplicationController = Ember.ObjectController.extend({
   ])
 });
 
-App.BucketsView = Ember.View.extend();
+//App.ItemsView = Ember.View.extend();
 
-App.SaveBucketMixin = Ember.Mixin.create({
-  // Set to true for init to listen for bucket events
-  enableSaveBucketEvents: Ember.required,
-
-  // Action handler should call `this.doSave()`
-  doSave: function() {
-    if (this.enableSaveBucketEvents) this._isSavingBucket = true;
-    return this.bucket.doSave();
-  },
-
-  // Template methods: mixin consumer can implement, requires flag `enableSaveBucketEvents`
-  saveBucketDidSave: function () { this._isSavingBucket = false; },
-  saveBucketDidNotSave: function () { this._isSavingBucket = false; },
-  saveBucketDidEmpty: Em.K,
-
-  // Default notice settings
-  bucketNotEmptyNotice: {
-    name: 'Unsaved Changes',
-    status: 'info'
-  },
-
-  saveBucketInit: function () {
-    if (!this.enableSaveBucketEvents) return;
-    this.bucket.on('didSave', this.saveBucketDidSave.bind(this));
-    this.bucket.on('didNotSave', this.saveBucketDidNotSave.bind(this));
-    this.bucket.on('didEmptySave', this.saveBucketDidEmpty.bind(this));
-  }.on('init'),
-
-  saveBucket: function () {
-    return this.bucket.getBucket('save');
-  }.property(),
-
-  saveBucketActivated: function () {
-    activated = this.get('saveBucketNotEmpty');
-    if (this.enableSaveBucketEvents) {
-      activated = activated && !this._isSavingBucket;
-    }
-    return activated;
-  }.property('saveBucketNotEmpty'),
-
-  saveBucketNotEmpty: function () {
-    return this.get('saveBucket.length') > 0;
-  }.property('saveBucket.[]'),
-
-  saveBucketNotEmptyChanged: function () {
-    var notices = this.get('notices');
-    if (this.get('saveBucketNotEmpty')) {
-      notices.addObject(this.bucketNotEmptyNotice);
-    } else {
-      notices.removeObject(this.bucketNotEmptyNotice);
-    }
-  }.observes('saveBucketNotEmpty'),
-
-  // `notices` list needs to be passed to a bucket component for display
-  notices: Ember.ArrayProxy.create({content: Em.A([])}),
-
-  _isSavingBucket: false
-});
-
-App.BucketsController = Ember.ArrayController.extend(App.SaveBucketMixin, {
+App.ItemsController = Ember.ArrayController.extend(EB.SaveBucketMixin, {
 
   enableSaveBucketEvents: true,
-
   //sortProperties: ['order'],
 
   actions: {
@@ -141,33 +81,39 @@ App.BucketsController = Ember.ArrayController.extend(App.SaveBucketMixin, {
 
 var topTen = [
   'Uncaught Error: Attempted to handle event `willCommit` on … while in state WAT.',
-  'Error while loading route: TypeError: Cannot set … property `store` of undefined',
-  'Uncaught Error: Assertion Failed: Error: Assertion Failed: The...',
-  'Docs: Ember.js Testing Guide',
-  'Web Components',
-  'query-params-new',
-  'ember-cli - no more ember-app-kit',
-  'Broccoli - no more grunt watch',
-  'ember-quit',
-  'HTMLbars hype'
+  'We already do a bad enough job with blog-post vs. blog_post vs. blogPost vs. BlogPost vs. blog.post',
+  'ryanflorence has been double timing ember with react #tattletale',
+  'But how are actually doing it in the code?',
+  "'foo/abc', ['./bar'] -> 'foo/bar', but 'foo', ['./bar'] -> 'foo/bar' so ./foo -> foo seems logical in this case",
+  'I declared a hasMany relation. I am having trouble using it to obtain a list of associated object',
+  'this ng-embereño esta confundido',
+  'ViewHole: Ember.computed.alias("translusion")',
+  'Error: Assertion Failed: Error: Assertion Failed: The URL "/links" did not match any routes in your application',
+  'ebryn trying to join the angular core team. like a phablet, he will be the best of both worlds'
 ];
 
-App.BucketsRoute = Ember.Route.extend({
+App.IndexRoute = Ember.Route.extend({
+  redirect: function() {
+    this.transitionTo('items');
+  }
+});
+
+App.ItemsRoute = Ember.Route.extend({
   model: function() {
     return new Ember.RSVP.Promise(function (resolve, reject) {
       var items = [];
       for (var i = 1; i <= topTen.length; i++) {
-        items.push(App.BucketModel.create({
+        items.push(App.ItemModel.create({
           item: topTen[i - 1],
           order: i
         }));
       }
       resolve(items);
-    })
+    });
   }
 });
 
-App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
+App.ItemModel = Ember.Object.extend(EB.BucketProcessableMixin, {
   bucketMap: { 'save': { 'isDirty': [ true ] }},
   save: function() {
     var _this = this;
@@ -178,7 +124,7 @@ App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
         _this.set('isDirty', false);
         resolve(_this);
       }, 500);
-    })
+    });
   },
   rollback: function() {
     this.setProperties({item: this._ogItem, order: this._ogOrder});
@@ -217,13 +163,13 @@ App.BucketModel = Ember.Object.extend(EB.BucketProcessableMixin, {
     ogProps = { item: this._ogItem, order: this._ogOrder };
     isDirty = (props.item !== ogProps.item || props.order !== ogProps.order);
     this.set('isDirty', isDirty);
-    return { current: props, original: ogProps }
+    return { current: props, original: ogProps };
   }.observes('item', 'order'),
   isDirty: false
 });
 
 App.Router.map(function() {
-  this.route('buckets', { path: "/buckets" });
+  this.route('items', { path: "/items" });
 });
 
 App.Router.reopen({
