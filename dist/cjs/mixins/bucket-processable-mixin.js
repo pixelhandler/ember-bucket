@@ -3,6 +3,8 @@ var Mixin = require("ember").Mixin;
 var Evented = require("ember").Evented;
 var get = require("ember").get;
 
+var BucketService = require("../services/bucket-service")["default"] || require("../services/bucket-service");
+
 
 /*
 @class BucketProcessableMixin
@@ -27,7 +29,6 @@ BucketProcessableMixin = Mixin.create({
   bucketMap:
     save:
       isDirty: [true]
-  
   ```
   
   @property bucketMap
@@ -91,7 +92,7 @@ BucketProcessableMixin = Mixin.create({
   @method _getBucketService
    */
   _getBucketService: function() {
-    return EB.BucketService.getSingleton();
+    return BucketService.getSingleton();
   }
 });
 

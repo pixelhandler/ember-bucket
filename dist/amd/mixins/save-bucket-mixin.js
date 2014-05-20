@@ -4,6 +4,7 @@ define(
     "use strict";
     var Mixin = __dependency1__.Mixin;
     var A = __dependency1__.A;
+    var ArrayProxy = __dependency1__.ArrayProxy;
     var get = __dependency1__.get;
     var required = __dependency1__.required;
     var K = __dependency1__.K;
@@ -65,7 +66,7 @@ define(
           return notices.removeObject(this.bucketNotEmptyNotice);
         }
       }).observes('saveBucketNotEmpty'),
-      notices: Ember.ArrayProxy.create({
+      notices: ArrayProxy.create({
         content: A([])
       }),
       _isSavingBucket: false

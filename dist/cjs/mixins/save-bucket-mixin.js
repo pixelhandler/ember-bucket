@@ -1,6 +1,7 @@
 "use strict";
 var Mixin = require("ember").Mixin;
 var A = require("ember").A;
+var ArrayProxy = require("ember").ArrayProxy;
 var get = require("ember").get;
 var required = require("ember").required;
 var K = require("ember").K;
@@ -62,7 +63,7 @@ SaveBucketMixin = Mixin.create({
       return notices.removeObject(this.bucketNotEmptyNotice);
     }
   }).observes('saveBucketNotEmpty'),
-  notices: Ember.ArrayProxy.create({
+  notices: ArrayProxy.create({
     content: A([])
   }),
   _isSavingBucket: false

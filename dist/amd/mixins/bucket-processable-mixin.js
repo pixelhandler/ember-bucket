@@ -1,10 +1,12 @@
 define(
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
+  ["ember","../services/bucket-service","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
     "use strict";
     var Mixin = __dependency1__.Mixin;
     var Evented = __dependency1__.Evented;
     var get = __dependency1__.get;
+
+    var BucketService = __dependency2__["default"] || __dependency2__;
 
 
     /*
@@ -30,7 +32,6 @@ define(
       bucketMap:
         save:
           isDirty: [true]
-      
       ```
       
       @property bucketMap
@@ -94,7 +95,7 @@ define(
       @method _getBucketService
        */
       _getBucketService: function() {
-        return EB.BucketService.getSingleton();
+        return BucketService.getSingleton();
       }
     });
 

@@ -1,4 +1,5 @@
 `import { Mixin, Evented, get } from 'ember';`
+`import BucketService from '../services/bucket-service';`
 
 ###
 @class BucketProcessableMixin
@@ -21,7 +22,6 @@ BucketProcessableMixin = Mixin.create
   bucketMap:
     save:
       isDirty: [true]
-
   ```
 
   @property bucketMap
@@ -67,7 +67,7 @@ BucketProcessableMixin = Mixin.create
   @method _getBucketService
   ###
   _getBucketService: ->
-    EB.BucketService.getSingleton()
+    BucketService.getSingleton()
 
 bucketObserverFactory = (bucketName, prop, values) ->
   return unless Array.isArray values

@@ -120,12 +120,14 @@ define("ember-bucket",
     __exports__.SaveBucketMixin = SaveBucketMixin;
   });
 define("ember-bucket/mixins/bucket-processable-mixin",
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
+  ["ember","../services/bucket-service","exports"],
+  function(__dependency1__, __dependency2__, __exports__) {
     "use strict";
     var Mixin = __dependency1__.Mixin;
     var Evented = __dependency1__.Evented;
     var get = __dependency1__.get;
+
+    var BucketService = __dependency2__["default"] || __dependency2__;
 
 
     /*
@@ -151,7 +153,6 @@ define("ember-bucket/mixins/bucket-processable-mixin",
       bucketMap:
         save:
           isDirty: [true]
-      
       ```
       
       @property bucketMap
@@ -215,7 +216,7 @@ define("ember-bucket/mixins/bucket-processable-mixin",
       @method _getBucketService
        */
       _getBucketService: function() {
-        return EB.BucketService.getSingleton();
+        return BucketService.getSingleton();
       }
     });
 
@@ -255,6 +256,7 @@ define("ember-bucket/mixins/save-bucket-mixin",
     "use strict";
     var Mixin = __dependency1__.Mixin;
     var A = __dependency1__.A;
+    var ArrayProxy = __dependency1__.ArrayProxy;
     var get = __dependency1__.get;
     var required = __dependency1__.required;
     var K = __dependency1__.K;
@@ -316,7 +318,7 @@ define("ember-bucket/mixins/save-bucket-mixin",
           return notices.removeObject(this.bucketNotEmptyNotice);
         }
       }).observes('saveBucketNotEmpty'),
-      notices: Ember.ArrayProxy.create({
+      notices: ArrayProxy.create({
         content: A([])
       }),
       _isSavingBucket: false

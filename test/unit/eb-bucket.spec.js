@@ -16,7 +16,7 @@ window.TEST_TEMPLATES[type] = function(){/*
 
 var element = "eb-%@".fmt(type);
 
-moduleForComponent(element, 'Unit: component:' + element, {
+moduleForComponent(element, 'Unit: component: ' + element, {
   needs: ['component:eb-label', 'component:eb-control']
 });
 

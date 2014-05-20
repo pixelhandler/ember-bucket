@@ -1,4 +1,4 @@
-`import { Mixin, A, get, required, K } from 'ember';`
+`import { Mixin, A, ArrayProxy, get, required, K } from 'ember';`
 
 ###
 @class SaveBucketMixin
@@ -56,7 +56,7 @@ SaveBucketMixin = Mixin.create
   ).observes 'saveBucketNotEmpty'
 
   # `notices` list needs to be passed to a bucket component for display
-  notices: Ember.ArrayProxy.create content: A []
+  notices: ArrayProxy.create content: A []
 
   _isSavingBucket: false
 

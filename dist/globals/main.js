@@ -113,6 +113,8 @@ var Mixin = window.Ember.Mixin;
 var Evented = window.Ember.Evented;
 var get = window.Ember.get;
 
+var BucketService = _dereq_("../services/bucket-service")["default"] || _dereq_("../services/bucket-service");
+
 
 /*
 @class BucketProcessableMixin
@@ -137,7 +139,6 @@ BucketProcessableMixin = Mixin.create({
   bucketMap:
     save:
       isDirty: [true]
-  
   ```
   
   @property bucketMap
@@ -201,7 +202,7 @@ BucketProcessableMixin = Mixin.create({
   @method _getBucketService
    */
   _getBucketService: function() {
-    return EB.BucketService.getSingleton();
+    return BucketService.getSingleton();
   }
 });
 
@@ -234,10 +235,11 @@ if (!Array.isArray) {
 BucketProcessableMixin.reopen(Evented);
 
 exports["default"] = BucketProcessableMixin;;
-},{}],6:[function(_dereq_,module,exports){
+},{"../services/bucket-service":7}],6:[function(_dereq_,module,exports){
 "use strict";
 var Mixin = window.Ember.Mixin;
 var A = window.Ember.A;
+var ArrayProxy = window.Ember.ArrayProxy;
 var get = window.Ember.get;
 var required = window.Ember.required;
 var K = window.Ember.K;
@@ -299,7 +301,7 @@ SaveBucketMixin = Mixin.create({
       return notices.removeObject(this.bucketNotEmptyNotice);
     }
   }).observes('saveBucketNotEmpty'),
-  notices: Ember.ArrayProxy.create({
+  notices: ArrayProxy.create({
     content: A([])
   }),
   _isSavingBucket: false
