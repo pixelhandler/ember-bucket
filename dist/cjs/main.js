@@ -11,6 +11,8 @@ var BucketService = require("./services/bucket-service")["default"] || require("
 
 var BucketProcessableMixin = require("./mixins/bucket-processable-mixin")["default"] || require("./mixins/bucket-processable-mixin");
 
+var SaveBucketMixin = require("./mixins/save-bucket-mixin")["default"] || require("./mixins/save-bucket-mixin");
+
 var Application = require("ember").Application;
 
 Application.initializer({
@@ -38,3 +40,4 @@ exports.EBBucketComponent = EBBucketComponent;
 exports.EBStylesTemplate = EBStylesTemplate;
 exports.BucketService = BucketService;
 exports.BucketProcessableMixin = BucketProcessableMixin;
+exports.SaveBucketMixin = SaveBucketMixin;

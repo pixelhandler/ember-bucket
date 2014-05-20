@@ -9,6 +9,7 @@
 
 # Mixins
 `import BucketProcessableMixin from './mixins/bucket-processable-mixin';`
+`import SaveBucketMixin from './mixins/save-bucket-mixin';`
 
 # Libraries
 `import { Application } from 'ember';`
@@ -32,5 +33,6 @@ Application.initializer
   EBBucketComponent,
   EBStylesTemplate,
   BucketService,
-  BucketProcessableMixin
+  BucketProcessableMixin,
+  SaveBucketMixin
 }`

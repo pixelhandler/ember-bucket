@@ -77,6 +77,8 @@ var BucketService = _dereq_("./services/bucket-service")["default"] || _dereq_("
 
 var BucketProcessableMixin = _dereq_("./mixins/bucket-processable-mixin")["default"] || _dereq_("./mixins/bucket-processable-mixin");
 
+var SaveBucketMixin = _dereq_("./mixins/save-bucket-mixin")["default"] || _dereq_("./mixins/save-bucket-mixin");
+
 var Application = window.Ember.Application;
 
 Application.initializer({
@@ -104,7 +106,8 @@ exports.EBBucketComponent = EBBucketComponent;
 exports.EBStylesTemplate = EBStylesTemplate;
 exports.BucketService = BucketService;
 exports.BucketProcessableMixin = BucketProcessableMixin;
-},{"./components/eb-bucket-component":1,"./components/eb-control-component":2,"./components/eb-label-component":3,"./mixins/bucket-processable-mixin":5,"./services/bucket-service":6,"./templates/main-css":7}],5:[function(_dereq_,module,exports){
+exports.SaveBucketMixin = SaveBucketMixin;
+},{"./components/eb-bucket-component":1,"./components/eb-control-component":2,"./components/eb-label-component":3,"./mixins/bucket-processable-mixin":5,"./mixins/save-bucket-mixin":6,"./services/bucket-service":7,"./templates/main-css":8}],5:[function(_dereq_,module,exports){
 "use strict";
 var Mixin = window.Ember.Mixin;
 var Evented = window.Ember.Evented;
@@ -232,6 +235,78 @@ BucketProcessableMixin.reopen(Evented);
 
 exports["default"] = BucketProcessableMixin;;
 },{}],6:[function(_dereq_,module,exports){
+"use strict";
+var Mixin = window.Ember.Mixin;
+var A = window.Ember.A;
+var get = window.Ember.get;
+var required = window.Ember.required;
+var K = window.Ember.K;
+
+
+/*
+@class SaveBucketMixin
+@namespace EB
+ */
+var SaveBucketMixin;
+
+SaveBucketMixin = Mixin.create({
+  enableSaveBucketEvents: required,
+  doSave: function() {
+    if (this.enableSaveBucketEvents) {
+      this._isSavingBucket = true;
+    }
+    return this.bucket.doSave();
+  },
+  saveBucketDidSave: function() {
+    return this._isSavingBucket = false;
+  },
+  saveBucketDidNotSave: function() {
+    return this._isSavingBucket = false;
+  },
+  saveBucketDidEmpty: K,
+  bucketNotEmptyNotice: {
+    name: 'Unsaved Changes',
+    status: 'info'
+  },
+  saveBucketInit: (function() {
+    if (!this.enableSaveBucketEvents) {
+      return;
+    }
+    this.bucket.on('didSave', this, this.saveBucketDidSave);
+    this.bucket.on('didNotSave', this, this.saveBucketDidNotSave);
+    return this.bucket.on('didEmptySave', this, this.saveBucketDidEmpty);
+  }).on('init'),
+  saveBucket: (function() {
+    return this.bucket.getBucket('save');
+  }).property(),
+  saveBucketActivated: (function() {
+    var activated;
+    activated = get(this, 'saveBucketNotEmpty');
+    if (this.enableSaveBucketEvents) {
+      activated = activated && !this._isSavingBucket;
+    }
+    return activated;
+  }).property('saveBucketNotEmpty'),
+  saveBucketNotEmpty: (function() {
+    return get(this, 'saveBucket.length') > 0;
+  }).property('saveBucket.[]'),
+  saveBucketNotEmptyChanged: (function() {
+    var notices;
+    notices = this.get('notices');
+    if (get(this, 'saveBucketNotEmpty')) {
+      return notices.addObject(this.bucketNotEmptyNotice);
+    } else {
+      return notices.removeObject(this.bucketNotEmptyNotice);
+    }
+  }).observes('saveBucketNotEmpty'),
+  notices: Ember.ArrayProxy.create({
+    content: A([])
+  }),
+  _isSavingBucket: false
+});
+
+exports["default"] = SaveBucketMixin;;
+},{}],7:[function(_dereq_,module,exports){
 "use strict";
 var Object = window.Ember.Object;
 var A = window.Ember.A;
@@ -401,7 +476,7 @@ BucketService.reopenClass({
 });
 
 exports["default"] = BucketService;;
-},{}],7:[function(_dereq_,module,exports){
+},{}],8:[function(_dereq_,module,exports){
 "use strict";
 var Ember = window.Ember["default"] || window.Ember;
 exports["default"] = Ember.Handlebars.template(function anonymous(Handlebars,depth0,helpers,partials,data) {

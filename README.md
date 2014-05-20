@@ -22,7 +22,7 @@ Objects that are processed successfully are moved from the bucket. And objects t
 
 Objects in a bucket may use 'thenable' syntax (promises), and perhaps can move into another bucket depending whether the promise is rejected or resolved.
 
-Control elements (eb-control component) can send an action to the object with the injected bucket service, e.g. a controller. For a `save` bucket the command to process is `doSave`; the convention is to prefix the name of the bucket with 'do' then camelize.
+Control elements (eb-control component) can send an action to the object with the injected bucket service, e.g. a controller. The `SaveBucketMixin` can be used to configure a controller to interact with a `save` bucket. To process a `save` bucket the command is `doSave`; the convention is to prefix the name of the bucket using the word 'do'.
 
 A bucket service can manage many buckets. For example a controller with actions for `save` and `cancel` may call `this.service.doSave()` and `this.service.doRollback()` to process the `save` and `rollback` buckets.
 

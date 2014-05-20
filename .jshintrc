@@ -1,8 +1,10 @@
 {
     "predef": [
+        "EB",
+        "App",
         "console",
+        "$",
         "Ember",
-        "Emberella",
         "Handlebars",
         "Metamorph",
         "ember_assert",
@@ -24,13 +26,10 @@
         "strictEqual",
         "module",
         "expect",
-        "minispade",
-        "clickRelLink",
-        "appendIntoDOM",
-        "isAppendedToDOM",
-        "isDestroyed",
-        "documentHasSelector",
-        "destroyIfNecessary"
+        "fillIn",
+        "click",
+        "visit",
+        "andThen"
     ],
 
     "node" : false,
