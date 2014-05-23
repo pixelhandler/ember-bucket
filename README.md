@@ -4,6 +4,8 @@ Bucket object for batch processing, singleton to be used as a service for bucket
 
 See the example app code for usage. [View Demo](http://pixelhandler.github.io/ember-bucket/)
 
+[![Build Status](https://travis-ci.org/pixelhandler/ember-bucket.svg)](https://travis-ci.org/pixelhandler/ember-bucket)
+
 ## Install
 
     bower install ember-bucket
