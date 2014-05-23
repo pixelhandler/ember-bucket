@@ -4,6 +4,12 @@ Bucket object for batch processing, singleton to be used as a service for bucket
 
 See the example app code for usage. [View Demo](http://pixelhandler.github.io/ember-bucket/)
 
+## Install
+
+    bower install ember-bucket
+    
+Or, just download what you need from the dist directory.
+
 ## Overview
 
 The bucket object is intended to be used as a service object and injected as a dependency where needed, e.g. controllers.
