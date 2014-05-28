@@ -8,18 +8,18 @@
     "bower_components/ember-qunit/dist/globals/main.js",
     "http://localhost:4200/globals/main.js",
     "output.js",
-    "test/support/setup.js",
-    "test/**/*.spec.js",
-    "test/integration/*.js"
+    "tests/support/setup.js",
+    "tests/main.spec.js",
+    "tests/unit/*.js",
+    "tests/integration/*.js"
   ],
   "watch_files": [
     "tmp/broccoli.log",
-    "test/support/setup.js",
-    "test/**/*.spec.js",
-    "test/integration/*.js"
-    "output.js",
     "tests/support/setup.js",
-    "tests/**/*.spec.js"
+    "tests/main.spec.js",
+    "tests/unit/*.js",
+    "tests/integration/*.js",
+    "output.js"
   ],
   "parallel": 4,
   "launch_in_dev": ["PhantomJS", "Safari", "Chrome"],

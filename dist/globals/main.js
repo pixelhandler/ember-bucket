@@ -65,20 +65,20 @@ EBLabelComponent = {
 exports["default"] = Component.extend(EBLabelComponent);
 },{}],4:[function(_dereq_,module,exports){
 "use strict";
+// Components
 var EBLabelComponent = _dereq_("./components/eb-label-component")["default"] || _dereq_("./components/eb-label-component");
-
 var EBControlComponent = _dereq_("./components/eb-control-component")["default"] || _dereq_("./components/eb-control-component");
-
 var EBBucketComponent = _dereq_("./components/eb-bucket-component")["default"] || _dereq_("./components/eb-bucket-component");
-
 var EBStylesTemplate = _dereq_("./templates/main-css")["default"] || _dereq_("./templates/main-css");
 
+// Services
 var BucketService = _dereq_("./services/bucket-service")["default"] || _dereq_("./services/bucket-service");
 
+// Mixins
 var BucketProcessableMixin = _dereq_("./mixins/bucket-processable-mixin")["default"] || _dereq_("./mixins/bucket-processable-mixin");
-
 var SaveBucketMixin = _dereq_("./mixins/save-bucket-mixin")["default"] || _dereq_("./mixins/save-bucket-mixin");
 
+// Libraries
 var Application = window.Ember.Application;
 
 Application.initializer({
@@ -487,7 +487,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   
 
 
-  data.buffer.push("eb-label {\n  display: inline;\n  padding: 0.2em 0.6em 0.3em;\n  font-size: 75%;\n  font-weight: 700;\n  line-height: 1;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: 0.25em; }\n  eb-label.info, eb-label.success, eb-label.warn, eb-label.danger {\n    color: #ffffff; }\n  eb-label.info {\n    background-color: #5bc0de; }\n  eb-label.success {\n    background-color: #5cb85c; }\n  eb-label.warn {\n    background-color: #f0ad4e; }\n  eb-label.danger {\n    background-color: #d9534f; }\n\neb-control {\n  cursor: pointer;\n  display: inline-block;\n  color: #000000;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  vertical-align: baseline; }\n  eb-control.activated {\n    opacity: 1; }\n  eb-control.disabled {\n    cursor: not-allowed;\n    pointer-events: none;\n    opacity: 0.65; }\n  eb-control:hover {\n    text-decoration: underline; }\n");
+  data.buffer.push("eb-label{display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em}eb-label.info,eb-label.success,eb-label.warn,eb-label.danger{color:#fff}eb-label.info{background-color:#5bc0de}eb-label.success{background-color:#5cb85c}eb-label.warn{background-color:#f0ad4e}eb-label.danger{background-color:#d9534f}eb-control{cursor:pointer;display:inline-block;color:#000;text-align:center;text-decoration:none;white-space:nowrap;vertical-align:baseline}eb-control.activated{opacity:1}eb-control.disabled{cursor:not-allowed;pointer-events:none;opacity:.65}eb-control:hover{text-decoration:underline}");
   
 });
 },{}]},{},[4])

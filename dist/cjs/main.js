@@ -1,18 +1,18 @@
 "use strict";
+// Components
 var EBLabelComponent = require("./components/eb-label-component")["default"] || require("./components/eb-label-component");
-
 var EBControlComponent = require("./components/eb-control-component")["default"] || require("./components/eb-control-component");
-
 var EBBucketComponent = require("./components/eb-bucket-component")["default"] || require("./components/eb-bucket-component");
-
 var EBStylesTemplate = require("./templates/main-css")["default"] || require("./templates/main-css");
 
+// Services
 var BucketService = require("./services/bucket-service")["default"] || require("./services/bucket-service");
 
+// Mixins
 var BucketProcessableMixin = require("./mixins/bucket-processable-mixin")["default"] || require("./mixins/bucket-processable-mixin");
-
 var SaveBucketMixin = require("./mixins/save-bucket-mixin")["default"] || require("./mixins/save-bucket-mixin");
 
+// Libraries
 var Application = require("ember").Application;
 
 Application.initializer({

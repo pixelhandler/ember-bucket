@@ -72,24 +72,123 @@ define("ember-bucket/components/eb-label-component",
 
     __exports__["default"] = Component.extend(EBLabelComponent);
   });
+define("ember-bucket/components/ella-sample-component",
+  ["ember","exports"],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    var Component = __dependency1__.Component;
+    var get = __dependency1__.get;
+    var set = __dependency1__.set;
+    var computed = __dependency1__.computed;
+
+    /*
+    @module emberella
+    @submodule emberella-components
+    */
+
+    /**
+      The `EllaSampleComponent` illustrates how to get started with Emberella
+      Component Blueprint.
+
+      To use this component in your app, add this to a template:
+
+      ```handlebars
+      {{#ella-sample}}
+        <h1>{{view.tests}}</h1>
+        <p>Click Me</p>
+      {{/ella-sample}}
+      ```
+
+      @class EllaSampleComponent
+      @namespace Emberella
+      @extends Ember.Component
+    */
+
+    var EllaSampleComponent;
+
+    EllaSampleComponent = {
+      /**
+        The type of element to render this view into. By default, samples will appear
+        as `<ella-sample/>` elements.
+
+        @property tagName
+        @type String
+        @default 'ella-sample'
+      */
+      tagName: 'ella-sample',
+
+      /**
+        HTML attributes that should be bound to this object's properties.
+
+        @property attributeBindings
+        @type Array
+        @default ['_activated:activated']
+      */
+      attributeBindings: ['_activated:activated'],
+
+      /**
+        Activation state for this component instance.
+
+        @property activated
+        @type Boolean
+        @default false
+      */
+      activated: false,
+
+      /**
+        A number for the click event to increment.
+
+        @property tests
+        @type Integer
+        @default 0
+      */
+      tests: 0,
+
+      /**
+        @private
+
+        Computed value for "activated" HTML attribute.
+
+        @property _activated
+        @type {Boolean|Null}
+        @default null
+        @readOnly
+      */
+      _activated: computed(function() {
+        return get(this, 'activated') ? 'true' : null;
+      }).property('activated').readOnly(),
+
+      /**
+        Handle the click event.
+
+        @event click
+      */
+      click: function() {
+        set(this, 'activated', !get(this, 'activated'));
+        this.incrementProperty('tests');
+      }
+    };
+
+    __exports__["default"] = Component.extend(EllaSampleComponent);
+  });
 define("ember-bucket",
   ["./components/eb-label-component","./components/eb-control-component","./components/eb-bucket-component","./templates/main-css","./services/bucket-service","./mixins/bucket-processable-mixin","./mixins/save-bucket-mixin","ember","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __exports__) {
     "use strict";
+    // Components
     var EBLabelComponent = __dependency1__["default"] || __dependency1__;
-
     var EBControlComponent = __dependency2__["default"] || __dependency2__;
-
     var EBBucketComponent = __dependency3__["default"] || __dependency3__;
-
     var EBStylesTemplate = __dependency4__["default"] || __dependency4__;
 
+    // Services
     var BucketService = __dependency5__["default"] || __dependency5__;
 
+    // Mixins
     var BucketProcessableMixin = __dependency6__["default"] || __dependency6__;
-
     var SaveBucketMixin = __dependency7__["default"] || __dependency7__;
 
+    // Libraries
     var Application = __dependency8__.Application;
 
     Application.initializer({
@@ -510,7 +609,7 @@ define("ember-bucket/templates/main-css",
       
 
 
-      data.buffer.push("eb-label {\n  display: inline;\n  padding: 0.2em 0.6em 0.3em;\n  font-size: 75%;\n  font-weight: 700;\n  line-height: 1;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: 0.25em; }\n  eb-label.info, eb-label.success, eb-label.warn, eb-label.danger {\n    color: #ffffff; }\n  eb-label.info {\n    background-color: #5bc0de; }\n  eb-label.success {\n    background-color: #5cb85c; }\n  eb-label.warn {\n    background-color: #f0ad4e; }\n  eb-label.danger {\n    background-color: #d9534f; }\n\neb-control {\n  cursor: pointer;\n  display: inline-block;\n  color: #000000;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  vertical-align: baseline; }\n  eb-control.activated {\n    opacity: 1; }\n  eb-control.disabled {\n    cursor: not-allowed;\n    pointer-events: none;\n    opacity: 0.65; }\n  eb-control:hover {\n    text-decoration: underline; }\n");
+      data.buffer.push("eb-label{display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em}eb-label.info,eb-label.success,eb-label.warn,eb-label.danger{color:#fff}eb-label.info{background-color:#5bc0de}eb-label.success{background-color:#5cb85c}eb-label.warn{background-color:#f0ad4e}eb-label.danger{background-color:#d9534f}eb-control{cursor:pointer;display:inline-block;color:#000;text-align:center;text-decoration:none;white-space:nowrap;vertical-align:baseline}eb-control.activated{opacity:1}eb-control.disabled{cursor:not-allowed;pointer-events:none;opacity:.65}eb-control:hover{text-decoration:underline}");
       
     });
   });
