@@ -4,11 +4,11 @@ define(
     "use strict";
     var Component = __dependency1__.Component;
 
-    /*
+    /**
     @class EBLabelComponent
     @extends Ember.Component
     @namespace EB
-     */
+    */
     var EBLabelComponent;
 
     EBLabelComponent = {

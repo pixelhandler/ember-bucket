@@ -8,57 +8,81 @@ var run = require("ember").run;
 var get = require("ember").get;
 var set = require("ember").set;
 
-var BucketService, slice, _singletonInstance;
+var slice = Array.prototype.slice;
 
-slice = Array.prototype.slice;
-
-
-/*
+/**
 @class BucketService
 @namespace EB
- */
+*/
+var BucketService = Object.extend(Evented, {
 
-BucketService = Object.extend(Evented, {
+  /**
+  @property queues
+  */
   queues: null,
+
+  /**
+  @method addToBucket
+  */
   addToBucket: function(name, target) {
-    var bucket;
-    bucket = this._bucket(name);
+    var bucket = this._bucket(name);
     return bucket.addObject(target);
   },
+
+  /**
+  @method removeFromBucket
+  */
   removeFromBucket: function(name, target) {
-    var bucket;
-    bucket = this._bucket(name);
+    var bucket = this._bucket(name);
     return bucket.removeObject(target);
   },
+
+  /**
+  @method getBucket
+  */
   getBucket: function(name) {
     var bucket;
     return bucket = this._bucket(name);
   },
+
+  /**
+  @method emptyBucket
+  */
   emptyBucket: function(name) {
     var bucket;
     bucket = this._bucket(name);
     this._bucket(name).forEach(function(target) {
-      return bucket.removeObject(target);
+      bucket.removeObject(target);
     });
-    return this.trigger('didEmpty' + name.capitalize());
+    this.trigger('didEmpty' + name.capitalize());
   },
+
+  /**
+  @method moveToBucket
+  */
   moveToBucket: function(from, to) {
-    var dest, src;
-    src = this._bucket(from);
-    dest = this._bucket(to);
+    var src = this._bucket(from);
+    var dest = this._bucket(to);
     src.forEach(function(item) {
-      return dest.addObject(item);
+      dest.addObject(item);
     });
-    return dest.forEach(function(item) {
-      return src.removeObject(item);
+    dest.forEach(function(item) {
+      src.removeObject(item);
     });
   },
+
+  /**
+  @method setOperation
+  */
   setOperation: function(name, fn) {
     return this._operation(name, fn);
   },
+
+  /**
+  @method reset
+  */
   reset: function() {
-    var queues;
-    queues = get(this, 'queues');
+    var queues = get(this, 'queues');
     return queues.forEach((function(_this) {
       return function(key) {
         if (!key.match(/operation$/)) {
@@ -68,13 +92,22 @@ BucketService = Object.extend(Evented, {
       };
     })(this));
   },
+
+  /**
+  @private
+  @method _initQueues
+  */
   _initQueues: (function() {
-    return set(this, 'queues', Map.create());
+    set(this, 'queues', Map.create());
   }).on('init'),
+
+  /**
+  @private
+  @method _bucket
+  */
   _bucket: function(name) {
-    var bucket, queues;
-    queues = get(this, 'queues');
-    bucket = queues.get(name);
+    var queues = get(this, 'queues');
+    var bucket = queues.get(name);
     if (!bucket) {
       queues.set(name, A([]));
       this._operation(name, null);
@@ -82,51 +115,57 @@ BucketService = Object.extend(Evented, {
     }
     return bucket || queues.get(name);
   },
+
+  /**
+  @private
+  @method _operation
+  */
   _operation: function(name, fn) {
-    var fnKey, queues, _name;
-    fnKey = "%@:operation".fmt(name);
-    queues = get(this, 'queues');
+    var fnKey = "%@:operation".fmt(name);
+    var queues = get(this, 'queues');
     if (typeof fn === 'function') {
       return queues.set(fnKey, fn);
     } else if (fn === null) {
-      _name = name;
-      return queues.set(fnKey, function(target) {
+      var _name = name;
+      queues.set(fnKey, function(target) {
         return target[_name].call(target);
       });
     } else {
       return queues.get(fnKey);
     }
   },
+
+  /**
+  @private
+  @method _process
+  */
   _process: function(name) {
-    var bucket, didNotProcess, didProcess, fn, item, results, suffix, __process, _i, _len, _ref;
-    bucket = this._bucket(name);
-    fn = this._operation(name);
-    results = A([]);
-    __process = function(item) {
-      var result;
-      result = null;
+    var bucket = this._bucket(name);
+    var fn = this._operation(name);
+    var results = A([]);
+    var __process = function(item) {
+      var result = null;
       run(function() {
         return result = fn(item);
       });
       if (result && typeof result.then === 'function') {
         results.pushObject(result);
         result.then(function() {
-          return bucket.removeObject(item);
+          bucket.removeObject(item);
         });
       } else {
         bucket.removeObject(item);
       }
       return result;
     };
-    _ref = bucket.toArray();
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
-      __process(item);
+    var bucketItems = bucket.toArray();
+    for (var i = 0, len = bucketItems.length; i < len; i++) {
+      __process(bucketItems[i]);
     }
     if (results.length) {
-      suffix = name.capitalize();
-      didProcess = 'did' + suffix;
-      didNotProcess = 'didNot' + suffix;
+      var suffix = name.capitalize();
+      var didProcess = 'did' + suffix;
+      var didNotProcess = 'didNot' + suffix;
       return RSVP.Promise.all(results).then((function(_this) {
         return function() {
           return _this.trigger(didProcess);
@@ -138,11 +177,15 @@ BucketService = Object.extend(Evented, {
       })(this));
     }
   },
+
+  /**
+  @private
+  @method _setupCommand
+  */
   _setupCommand: function(name) {
-    var command, processor, _name;
-    _name = name;
-    command = 'do' + name.capitalize();
-    processor = (function(_this) {
+    var _name = name;
+    var command = 'do' + name.capitalize();
+    var processor = (function(_this) {
       return function() {
         return _this._process(_name);
       };
@@ -152,18 +195,25 @@ BucketService = Object.extend(Evented, {
   }
 });
 
-_singletonInstance = null;
+var _singletonInstance = null;
 
 BucketService.reopenClass({
+  /**
+  @method create
+  */
   create: function() {
     if (_singletonInstance != null) {
       return _singletonInstance;
     }
     return _singletonInstance = Object.create.apply(this, slice.call(arguments));
   },
+
+  /**
+  @method getSingleton
+  */
   getSingleton: function() {
     return BucketService.create.apply(this, slice.call(arguments));
   }
 });
 
-exports["default"] = BucketService;;
+exports["default"] = BucketService;

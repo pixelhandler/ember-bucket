@@ -2,20 +2,18 @@
 var Mixin = require("ember").Mixin;
 var Evented = require("ember").Evented;
 var get = require("ember").get;
-
 var BucketService = require("../services/bucket-service")["default"] || require("../services/bucket-service");
 
-
-/*
+/**
 @class BucketProcessableMixin
 @namespace EB
- */
+*/
 var BucketProcessableMixin, bucketObserverFactory,
   __hasProp = {}.hasOwnProperty;
 
-BucketProcessableMixin = Mixin.create({
+var BucketProcessableMixin = Mixin.create({
 
-  /*
+  /**
   Map of properties and associated buckets (processes)
   
   The map is a list of properties with an object mapping the property
@@ -33,83 +31,71 @@ BucketProcessableMixin = Mixin.create({
   
   @property bucketMap
   @type {Object}
-   */
+  */
   bucketMap: Em.required,
 
-  /*
+  /**
   @method addToBucket
   @param {String} name - the bucket name to add this object to
-   */
+  */
   addToBucket: function(name) {
-    return this._getBucketService().addToBucket(name, this);
+    this._getBucketService().addToBucket(name, this);
   },
 
-  /*
+  /**
   @method removeFromBucket
   @param {String} name - the bucket name to remove this object from
-   */
+  */
   removeFromBucket: function(name) {
-    return this._getBucketService().removeFromBucket(name, this);
+    this._getBucketService().removeFromBucket(name, this);
   },
 
-  /*
+  /**
   @method makeProcessable - is fired on init, checks for service
-   */
+  */
   makeProcessable: (function() {
     if (!this._getBucketService()) {
       throw new Error('Error: makeProcessable requires ' + service);
     }
-    return this._setupBucketMapObservers();
+    this._setupBucketMapObservers();
   }).on('init'),
 
-  /*
+  /**
   @private
   @method _setupBucketMapObservers
-   */
+  */
   _setupBucketMapObservers: function() {
-    var bucketName, config, map, prop, values, _results;
-    map = get(this, 'bucketMap');
-    _results = [];
+    var bucketName, config, prop, values;
+    var map = get(this, 'bucketMap');
     for (bucketName in map) {
-      if (!__hasProp.call(map, bucketName)) continue;
+      if (!map.hasOwnProperty(bucketName)) continue;
       config = map[bucketName];
-      _results.push((function() {
-        var _results1;
-        _results1 = [];
-        for (prop in config) {
-          if (!__hasProp.call(config, prop)) continue;
-          values = config[prop];
-          _results1.push(bucketObserverFactory.call(this, bucketName, prop, values));
-        }
-        return _results1;
-      }).call(this));
+      for (prop in config) {
+        if (!config.hasOwnProperty(prop)) continue;
+        values = config[prop];
+        bucketObserverFactory.call(this, bucketName, prop, values);
+      }
     }
-    return _results;
   },
 
-  /*
+  /**
   @private
   @method _getBucketService
-   */
+  */
   _getBucketService: function() {
     return BucketService.getSingleton();
   }
 });
 
-bucketObserverFactory = function(bucketName, prop, values) {
-  var observer, _bucketName, _prop, _ref, _this, _values;
-  if (!Array.isArray(values)) {
-    return;
-  }
-  _ref = [prop, values, bucketName], _prop = _ref[0], _values = _ref[1], _bucketName = _ref[2];
-  _this = this;
-  observer = function() {
-    var val;
-    val = get(_this, _prop);
+var bucketObserverFactory = function(bucketName, prop, values) {
+  if (!Array.isArray(values)) { return; }
+  var _this = this, _bucketName = bucketName, _prop = prop, _values = values;
+  var observer = function() {
+    var val = get(_this, _prop);
     if (_values.contains(val)) {
-      return _this.addToBucket(bucketName);
+      _this.addToBucket(_bucketName);
     } else {
-      return _this.removeFromBucket(bucketName);
+      _this.removeFromBucket(_bucketName);
     }
   };
   this.addObserver(prop, this, observer);
@@ -124,4 +110,4 @@ if (!Array.isArray) {
 
 BucketProcessableMixin.reopen(Evented);
 
-exports["default"] = BucketProcessableMixin;;
+exports["default"] = BucketProcessableMixin;
