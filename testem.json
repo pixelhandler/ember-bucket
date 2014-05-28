@@ -7,6 +7,7 @@
     "bower_components/jquery-simulate/index.js",
     "bower_components/ember-qunit/dist/globals/main.js",
     "http://localhost:4200/globals/main.js",
+    "output.js",
     "test/support/setup.js",
     "test/**/*.spec.js",
     "test/integration/*.js"
@@ -16,6 +17,9 @@
     "test/support/setup.js",
     "test/**/*.spec.js",
     "test/integration/*.js"
+    "output.js",
+    "tests/support/setup.js",
+    "tests/**/*.spec.js"
   ],
   "parallel": 4,
   "launch_in_dev": ["PhantomJS", "Safari", "Chrome"],
