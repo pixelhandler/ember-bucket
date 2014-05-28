@@ -5,13 +5,13 @@ define(
     var Component = __dependency1__.Component;
     var A = __dependency1__.A;
 
-    /*
+    /**
     Composite component of controls and labels for sending commands to a service
 
     @class EBBucketComponent
     @extends Ember.Component
     @namespace EB
-     */
+    */
     var EBBucketComponent;
 
     EBBucketComponent = {

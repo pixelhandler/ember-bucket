@@ -7,8 +7,8 @@ dependencies = [
 ]
 
 tests = [
-  "test/support/setup.js"
-  "test/**/*.spec.*"
+  "tests/support/setup.js"
+  "tests/**/*.spec.*"
 ]
 
 dist_src = [].concat(dependencies, "dist/globals/main.js", tests)

@@ -34,13 +34,13 @@
 
     "node" : false,
     "browser" : true,
-
     "boss" : true,
     "curly": false,
     "debug": false,
     "devel": false,
     "eqeqeq": false,
     "eqnull": true,
+    "esnext: true,
     "evil": true,
     "expr": true,
     "forin": false,

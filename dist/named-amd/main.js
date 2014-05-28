@@ -5,13 +5,13 @@ define("ember-bucket/components/eb-bucket-component",
     var Component = __dependency1__.Component;
     var A = __dependency1__.A;
 
-    /*
+    /**
     Composite component of controls and labels for sending commands to a service
 
     @class EBBucketComponent
     @extends Ember.Component
     @namespace EB
-     */
+    */
     var EBBucketComponent;
 
     EBBucketComponent = {
@@ -28,22 +28,26 @@ define("ember-bucket/components/eb-control-component",
     var Component = __dependency1__.Component;
     var get = __dependency1__.get;
 
-    /*
+    /**:
     @class EBControlComponent
     @extends Ember.Component
     @namespace EB
-     */
+    */
     var EBControlComponent;
 
     EBControlComponent = {
       tagName: 'eb-control',
+      
       classNameBindings: ['activated', 'action', 'disabled'],
+
       click: function() {
         if (get(this, 'activated')) {
           return this.sendAction();
         }
       },
+
       activated: false,
+
       disabled: (function() {
         return !get(this, 'activated');
       }).property('activated')
@@ -57,11 +61,11 @@ define("ember-bucket/components/eb-label-component",
     "use strict";
     var Component = __dependency1__.Component;
 
-    /*
+    /**
     @class EBLabelComponent
     @extends Ember.Component
     @namespace EB
-     */
+    */
     var EBLabelComponent;
 
     EBLabelComponent = {
@@ -76,20 +80,20 @@ define("ember-bucket",
   ["./components/eb-label-component","./components/eb-control-component","./components/eb-bucket-component","./templates/main-css","./services/bucket-service","./mixins/bucket-processable-mixin","./mixins/save-bucket-mixin","ember","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __dependency8__, __exports__) {
     "use strict";
+    // Components
     var EBLabelComponent = __dependency1__["default"] || __dependency1__;
-
     var EBControlComponent = __dependency2__["default"] || __dependency2__;
-
     var EBBucketComponent = __dependency3__["default"] || __dependency3__;
-
     var EBStylesTemplate = __dependency4__["default"] || __dependency4__;
 
+    // Services
     var BucketService = __dependency5__["default"] || __dependency5__;
 
+    // Mixins
     var BucketProcessableMixin = __dependency6__["default"] || __dependency6__;
-
     var SaveBucketMixin = __dependency7__["default"] || __dependency7__;
 
+    // Libraries
     var Application = __dependency8__.Application;
 
     Application.initializer({
@@ -126,20 +130,18 @@ define("ember-bucket/mixins/bucket-processable-mixin",
     var Mixin = __dependency1__.Mixin;
     var Evented = __dependency1__.Evented;
     var get = __dependency1__.get;
-
     var BucketService = __dependency2__["default"] || __dependency2__;
 
-
-    /*
+    /**
     @class BucketProcessableMixin
     @namespace EB
-     */
+    */
     var BucketProcessableMixin, bucketObserverFactory,
       __hasProp = {}.hasOwnProperty;
 
-    BucketProcessableMixin = Mixin.create({
+    var BucketProcessableMixin = Mixin.create({
 
-      /*
+      /**
       Map of properties and associated buckets (processes)
       
       The map is a list of properties with an object mapping the property
@@ -157,83 +159,71 @@ define("ember-bucket/mixins/bucket-processable-mixin",
       
       @property bucketMap
       @type {Object}
-       */
+      */
       bucketMap: Em.required,
 
-      /*
+      /**
       @method addToBucket
       @param {String} name - the bucket name to add this object to
-       */
+      */
       addToBucket: function(name) {
-        return this._getBucketService().addToBucket(name, this);
+        this._getBucketService().addToBucket(name, this);
       },
 
-      /*
+      /**
       @method removeFromBucket
       @param {String} name - the bucket name to remove this object from
-       */
+      */
       removeFromBucket: function(name) {
-        return this._getBucketService().removeFromBucket(name, this);
+        this._getBucketService().removeFromBucket(name, this);
       },
 
-      /*
+      /**
       @method makeProcessable - is fired on init, checks for service
-       */
+      */
       makeProcessable: (function() {
         if (!this._getBucketService()) {
           throw new Error('Error: makeProcessable requires ' + service);
         }
-        return this._setupBucketMapObservers();
+        this._setupBucketMapObservers();
       }).on('init'),
 
-      /*
+      /**
       @private
       @method _setupBucketMapObservers
-       */
+      */
       _setupBucketMapObservers: function() {
-        var bucketName, config, map, prop, values, _results;
-        map = get(this, 'bucketMap');
-        _results = [];
+        var bucketName, config, prop, values;
+        var map = get(this, 'bucketMap');
         for (bucketName in map) {
-          if (!__hasProp.call(map, bucketName)) continue;
+          if (!map.hasOwnProperty(bucketName)) continue;
           config = map[bucketName];
-          _results.push((function() {
-            var _results1;
-            _results1 = [];
-            for (prop in config) {
-              if (!__hasProp.call(config, prop)) continue;
-              values = config[prop];
-              _results1.push(bucketObserverFactory.call(this, bucketName, prop, values));
-            }
-            return _results1;
-          }).call(this));
+          for (prop in config) {
+            if (!config.hasOwnProperty(prop)) continue;
+            values = config[prop];
+            bucketObserverFactory.call(this, bucketName, prop, values);
+          }
         }
-        return _results;
       },
 
-      /*
+      /**
       @private
       @method _getBucketService
-       */
+      */
       _getBucketService: function() {
         return BucketService.getSingleton();
       }
     });
 
-    bucketObserverFactory = function(bucketName, prop, values) {
-      var observer, _bucketName, _prop, _ref, _this, _values;
-      if (!Array.isArray(values)) {
-        return;
-      }
-      _ref = [prop, values, bucketName], _prop = _ref[0], _values = _ref[1], _bucketName = _ref[2];
-      _this = this;
-      observer = function() {
-        var val;
-        val = get(_this, _prop);
+    var bucketObserverFactory = function(bucketName, prop, values) {
+      if (!Array.isArray(values)) { return; }
+      var _this = this, _bucketName = bucketName, _prop = prop, _values = values;
+      var observer = function() {
+        var val = get(_this, _prop);
         if (_values.contains(val)) {
-          return _this.addToBucket(bucketName);
+          _this.addToBucket(_bucketName);
         } else {
-          return _this.removeFromBucket(bucketName);
+          _this.removeFromBucket(_bucketName);
         }
       };
       this.addObserver(prop, this, observer);
@@ -248,7 +238,7 @@ define("ember-bucket/mixins/bucket-processable-mixin",
 
     BucketProcessableMixin.reopen(Evented);
 
-    __exports__["default"] = BucketProcessableMixin;;
+    __exports__["default"] = BucketProcessableMixin;
   });
 define("ember-bucket/mixins/save-bucket-mixin",
   ["ember","exports"],
@@ -261,32 +251,61 @@ define("ember-bucket/mixins/save-bucket-mixin",
     var required = __dependency1__.required;
     var K = __dependency1__.K;
 
-
-    /*
+    /**
     @class SaveBucketMixin
     @namespace EB
-     */
+    */
     var SaveBucketMixin;
 
     SaveBucketMixin = Mixin.create({
+      /**
+      Set to true for init to listen for bucket events
+      @property enableSaveBucketEvents
+      */
       enableSaveBucketEvents: required,
+
+      /**
+      Action handler should call `this.doSave()`
+      @method doSave
+      */
       doSave: function() {
         if (this.enableSaveBucketEvents) {
           this._isSavingBucket = true;
         }
         return this.bucket.doSave();
       },
+
+      /**
+      @method saveBucketDidSave
+      */
       saveBucketDidSave: function() {
-        return this._isSavingBucket = false;
+        this._isSavingBucket = false;
       },
+
+      /**
+      @method saveBucketDidNotSave
+      */
       saveBucketDidNotSave: function() {
-        return this._isSavingBucket = false;
+        this._isSavingBucket = false;
       },
+
+      /**
+      @method saveBucketDidEmpty - no-op
+      */
       saveBucketDidEmpty: K,
+
+      /**
+      Default notice settings
+      @property bucketNotEmptyNotice
+      */
       bucketNotEmptyNotice: {
         name: 'Unsaved Changes',
         status: 'info'
       },
+
+      /**
+      @method saveBucketInit
+      */
       saveBucketInit: (function() {
         if (!this.enableSaveBucketEvents) {
           return;
@@ -295,36 +314,60 @@ define("ember-bucket/mixins/save-bucket-mixin",
         this.bucket.on('didNotSave', this, this.saveBucketDidNotSave);
         return this.bucket.on('didEmptySave', this, this.saveBucketDidEmpty);
       }).on('init'),
+
+      /**
+      @property saveBucket
+      */
       saveBucket: (function() {
         return this.bucket.getBucket('save');
       }).property(),
+
+      /**
+      @property saveBucketActivated
+      */
       saveBucketActivated: (function() {
-        var activated;
-        activated = get(this, 'saveBucketNotEmpty');
+        var activated = get(this, 'saveBucketNotEmpty');
         if (this.enableSaveBucketEvents) {
           activated = activated && !this._isSavingBucket;
         }
         return activated;
       }).property('saveBucketNotEmpty'),
+
+      /**
+      @property saveBucketNotEmpty
+      */
       saveBucketNotEmpty: (function() {
         return get(this, 'saveBucket.length') > 0;
       }).property('saveBucket.[]'),
+
+      /**
+      @method saveBucketNotEmptyChanged
+      */
       saveBucketNotEmptyChanged: (function() {
-        var notices;
-        notices = this.get('notices');
+        var notices = this.get('notices');
         if (get(this, 'saveBucketNotEmpty')) {
-          return notices.addObject(this.bucketNotEmptyNotice);
+          notices.addObject(this.bucketNotEmptyNotice);
         } else {
-          return notices.removeObject(this.bucketNotEmptyNotice);
+          notices.removeObject(this.bucketNotEmptyNotice);
         }
       }).observes('saveBucketNotEmpty'),
+
+      /**
+      `notices` list needs to be passed to a bucket component for display
+      @property notices
+      */
       notices: ArrayProxy.create({
         content: A([])
       }),
+
+      /**
+      @private
+      @property _isSavingBucket
+      */
       _isSavingBucket: false
     });
 
-    __exports__["default"] = SaveBucketMixin;;
+    __exports__["default"] = SaveBucketMixin;
   });
 define("ember-bucket/services/bucket-service",
   ["ember","exports"],
@@ -339,57 +382,81 @@ define("ember-bucket/services/bucket-service",
     var get = __dependency1__.get;
     var set = __dependency1__.set;
 
-    var BucketService, slice, _singletonInstance;
+    var slice = Array.prototype.slice;
 
-    slice = Array.prototype.slice;
-
-
-    /*
+    /**
     @class BucketService
     @namespace EB
-     */
+    */
+    var BucketService = Object.extend(Evented, {
 
-    BucketService = Object.extend(Evented, {
+      /**
+      @property queues
+      */
       queues: null,
+
+      /**
+      @method addToBucket
+      */
       addToBucket: function(name, target) {
-        var bucket;
-        bucket = this._bucket(name);
+        var bucket = this._bucket(name);
         return bucket.addObject(target);
       },
+
+      /**
+      @method removeFromBucket
+      */
       removeFromBucket: function(name, target) {
-        var bucket;
-        bucket = this._bucket(name);
+        var bucket = this._bucket(name);
         return bucket.removeObject(target);
       },
+
+      /**
+      @method getBucket
+      */
       getBucket: function(name) {
         var bucket;
         return bucket = this._bucket(name);
       },
+
+      /**
+      @method emptyBucket
+      */
       emptyBucket: function(name) {
         var bucket;
         bucket = this._bucket(name);
         this._bucket(name).forEach(function(target) {
-          return bucket.removeObject(target);
+          bucket.removeObject(target);
         });
-        return this.trigger('didEmpty' + name.capitalize());
+        this.trigger('didEmpty' + name.capitalize());
       },
+
+      /**
+      @method moveToBucket
+      */
       moveToBucket: function(from, to) {
-        var dest, src;
-        src = this._bucket(from);
-        dest = this._bucket(to);
+        var src = this._bucket(from);
+        var dest = this._bucket(to);
         src.forEach(function(item) {
-          return dest.addObject(item);
+          dest.addObject(item);
         });
-        return dest.forEach(function(item) {
-          return src.removeObject(item);
+        dest.forEach(function(item) {
+          src.removeObject(item);
         });
       },
+
+      /**
+      @method setOperation
+      */
       setOperation: function(name, fn) {
         return this._operation(name, fn);
       },
+
+      /**
+      @method reset
+      */
       reset: function() {
-        var queues;
-        queues = get(this, 'queues');
+        var queues = get(this, 'queues');
         return queues.forEach((function(_this) {
           return function(key) {
             if (!key.match(/operation$/)) {
@@ -399,13 +466,22 @@ define("ember-bucket/services/bucket-service",
           };
         })(this));
       },
+
+      /**
+      @private
+      @method _initQueues
+      */
       _initQueues: (function() {
-        return set(this, 'queues', Map.create());
+        set(this, 'queues', Map.create());
       }).on('init'),
+
+      /**
+      @private
+      @method _bucket
+      */
       _bucket: function(name) {
-        var bucket, queues;
-        queues = get(this, 'queues');
-        bucket = queues.get(name);
+        var queues = get(this, 'queues');
+        var bucket = queues.get(name);
         if (!bucket) {
           queues.set(name, A([]));
           this._operation(name, null);
@@ -413,51 +489,57 @@ define("ember-bucket/services/bucket-service",
         }
         return bucket || queues.get(name);
       },
+
+      /**
+      @private
+      @method _operation
+      */
       _operation: function(name, fn) {
-        var fnKey, queues, _name;
-        fnKey = "%@:operation".fmt(name);
-        queues = get(this, 'queues');
+        var fnKey = "%@:operation".fmt(name);
+        var queues = get(this, 'queues');
         if (typeof fn === 'function') {
           return queues.set(fnKey, fn);
         } else if (fn === null) {
-          _name = name;
-          return queues.set(fnKey, function(target) {
+          var _name = name;
+          queues.set(fnKey, function(target) {
             return target[_name].call(target);
           });
         } else {
           return queues.get(fnKey);
         }
       },
+
+      /**
+      @private
+      @method _process
+      */
       _process: function(name) {
-        var bucket, didNotProcess, didProcess, fn, item, results, suffix, __process, _i, _len, _ref;
-        bucket = this._bucket(name);
-        fn = this._operation(name);
-        results = A([]);
-        __process = function(item) {
-          var result;
-          result = null;
+        var bucket = this._bucket(name);
+        var fn = this._operation(name);
+        var results = A([]);
+        var __process = function(item) {
+          var result = null;
           run(function() {
             return result = fn(item);
           });
           if (result && typeof result.then === 'function') {
             results.pushObject(result);
             result.then(function() {
-              return bucket.removeObject(item);
+              bucket.removeObject(item);
             });
           } else {
             bucket.removeObject(item);
           }
           return result;
         };
-        _ref = bucket.toArray();
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
-          __process(item);
+        var bucketItems = bucket.toArray();
+        for (var i = 0, len = bucketItems.length; i < len; i++) {
+          __process(bucketItems[i]);
         }
         if (results.length) {
-          suffix = name.capitalize();
-          didProcess = 'did' + suffix;
-          didNotProcess = 'didNot' + suffix;
+          var suffix = name.capitalize();
+          var didProcess = 'did' + suffix;
+          var didNotProcess = 'didNot' + suffix;
           return RSVP.Promise.all(results).then((function(_this) {
             return function() {
               return _this.trigger(didProcess);
@@ -469,11 +551,15 @@ define("ember-bucket/services/bucket-service",
           })(this));
         }
       },
+
+      /**
+      @private
+      @method _setupCommand
+      */
       _setupCommand: function(name) {
-        var command, processor, _name;
-        _name = name;
-        command = 'do' + name.capitalize();
-        processor = (function(_this) {
+        var _name = name;
+        var command = 'do' + name.capitalize();
+        var processor = (function(_this) {
           return function() {
             return _this._process(_name);
           };
@@ -483,21 +569,28 @@ define("ember-bucket/services/bucket-service",
       }
     });
 
-    _singletonInstance = null;
+    var _singletonInstance = null;
 
     BucketService.reopenClass({
+      /**
+      @method create
+      */
       create: function() {
         if (_singletonInstance != null) {
           return _singletonInstance;
         }
         return _singletonInstance = Object.create.apply(this, slice.call(arguments));
       },
+
+      /**
+      @method getSingleton
+      */
       getSingleton: function() {
         return BucketService.create.apply(this, slice.call(arguments));
       }
     });
 
-    __exports__["default"] = BucketService;;
+    __exports__["default"] = BucketService;
   });
 define("ember-bucket/templates/main-css",
   ["ember","exports"],
@@ -510,7 +603,7 @@ define("ember-bucket/templates/main-css",
       
 
 
-      data.buffer.push("eb-label {\n  display: inline;\n  padding: 0.2em 0.6em 0.3em;\n  font-size: 75%;\n  font-weight: 700;\n  line-height: 1;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: baseline;\n  border-radius: 0.25em; }\n  eb-label.info, eb-label.success, eb-label.warn, eb-label.danger {\n    color: #ffffff; }\n  eb-label.info {\n    background-color: #5bc0de; }\n  eb-label.success {\n    background-color: #5cb85c; }\n  eb-label.warn {\n    background-color: #f0ad4e; }\n  eb-label.danger {\n    background-color: #d9534f; }\n\neb-control {\n  cursor: pointer;\n  display: inline-block;\n  color: #000000;\n  text-align: center;\n  text-decoration: none;\n  white-space: nowrap;\n  vertical-align: baseline; }\n  eb-control.activated {\n    opacity: 1; }\n  eb-control.disabled {\n    cursor: not-allowed;\n    pointer-events: none;\n    opacity: 0.65; }\n  eb-control:hover {\n    text-decoration: underline; }\n");
+      data.buffer.push("eb-label{display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em}eb-label.info,eb-label.success,eb-label.warn,eb-label.danger{color:#fff}eb-label.info{background-color:#5bc0de}eb-label.success{background-color:#5cb85c}eb-label.warn{background-color:#f0ad4e}eb-label.danger{background-color:#d9534f}eb-control{cursor:pointer;display:inline-block;color:#000;text-align:center;text-decoration:none;white-space:nowrap;vertical-align:baseline}eb-control.activated{opacity:1}eb-control.disabled{cursor:not-allowed;pointer-events:none;opacity:.65}eb-control:hover{text-decoration:underline}");
       
     });
   });
