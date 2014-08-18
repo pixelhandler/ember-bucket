@@ -40,7 +40,7 @@
     "devel": false,
     "eqeqeq": false,
     "eqnull": true,
-    "esnext: true,
+    "esnext": true,
     "evil": true,
     "expr": true,
     "forin": false,
